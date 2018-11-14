@@ -18,10 +18,12 @@ router.get('/posts', async function(req, res) {
 router.post('/posts/:id/vote', async function(req, res) {
     let post = await Post.findById(req.params.id);
     let vote = new Vote({value: 1});
-    post.votes.add(vote);
+    post.votes.push(vote);
     await post.save();
+    console.log(post);
+    res.json(post);
 
-    res.redirect('/posts');
+    // res.redirect('/posts');
 });
 
 router.delete('/:id', async function(req, res, next) {

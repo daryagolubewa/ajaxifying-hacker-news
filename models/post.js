@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
 
 const postSchema = mongoose.Schema({
     title: String,
@@ -25,7 +26,7 @@ postSchema.pre('save', function (next) {
 
 const sum = (accumulator, currentValue) => accumulator + currentValue;
 postSchema.methods.points = function() {
-    return this.votes.reduce(sum, 0);
+    return this.votes.length;
 };
 
 postSchema.methods.timeSinceCreation = function() {
