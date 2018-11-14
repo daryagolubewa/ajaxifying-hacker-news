@@ -1,39 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const upvoteBtn = document.querySelector('.upvote-button');
-    const postId = document.querySelector('.post');
 
-    upvoteBtn.addEventListener('click', async() => {
-        event.preventDefault();
-        let response = await fetch('/posts/`${postId}`/vote', {
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
+
+        document.addEventListener('click', async (e) => {
+            if (e.target && e.target.classList.contains("upvote-button")) {
+                const upvoteBtn = e.target.parentNode.parentNode.querySelector('.upvote-button');
+                event.preventDefault();
+                let response = await fetch(`/posts/${e.target.dataset.id}/vote`, {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    }
+                });
+                // response = await response;
+                if (response.status === 200) {
+                    e.target.style.color = 'red';
+                    currentPost = await response.json();
+                    votesNumber = currentPost.votes.length;
+                    points = e.target.parentNode.parentNode.querySelector('.points');
+                    points.innerText = votesNumber;
+                }
             }
+        });
 
-        })
-    })
-
-
-})
-
-
-// let response = await fetch('/horse/add', {
-//     method: 'post',
-//     headers: {
-//         "Content-Type": "application/json; charset=utf-8",
-//     },
-//     body: JSON.stringify({name: horseName, breed: horseBreed, age: horseAge})
-// });
-// response = await response;
-// if(response.status === 200) {
-//     let horse = await response.json();
-//     let templateString = document.getElementById('horseTemplate').innerHTML;
-//     let template = Handlebars.compile(templateString);
-//     let html = template(horse);
-//     list[0].insertAdjacentHTML( 'beforeend', html);
-//
-//     form.style.display = 'none';
-//     btnSbm.style.display = 'none';
-//     btnAdd.style.display = 'block';
-//
-// }
+});

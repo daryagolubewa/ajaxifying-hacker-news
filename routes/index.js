@@ -20,10 +20,12 @@ router.post('/posts/:id/vote', async function(req, res) {
     let vote = new Vote({value: 1});
     post.votes.push(vote);
     await post.save();
-    console.log(post);
-    res.json(post);
+    await vote.save();
+    //let currentPost = JSON.stringify(post);
+    //console.log(currentPost);
+    res.status(200).json(post);
 
-    // res.redirect('/posts');
+
 });
 
 router.delete('/:id', async function(req, res, next) {
