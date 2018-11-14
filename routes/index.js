@@ -29,7 +29,9 @@ router.post('/posts/:id/vote', async function(req, res) {
 });
 
 router.delete('/:id', async function(req, res, next) {
-    // Создайте здесь логику для удаления постов
+    let post = await Post.findById(req.params.id);
+    Post.deleteOne(post);
+    res.status(200);
 });
 
 router.post('/posts', async function(req, res) {
@@ -38,11 +40,11 @@ router.post('/posts', async function(req, res) {
     res.redirect('/posts');
 });
 
-router.get('/posts/:id', async function(req,res) {
-    let post = await Post.findById(req.params.id);
-
-    res.render('post', { post });
-});
+// router.get('/posts/:id', async function(req,res) {
+//     let post = await Post.findById(req.params.id);
+//
+//     res.render('post', { post });
+// });
 
 module.exports = router;
 
